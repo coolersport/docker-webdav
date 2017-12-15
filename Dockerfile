@@ -8,7 +8,8 @@ ENV APACHE_RUN_USER=www-data \
     APACHE_LOG_DIR=/var/log/apache2 \
     APACHE_LOCK_DIR=/var/lock/apache2 \
     APACHE_RUN_DIR=/var/run/apache2 \
-    TZ=Australia/Melbourne
+    TZ=Australia/Melbourne \
+    WEBDAV_FOLDER=webdav
 
 COPY webdav /
 
