@@ -5,3 +5,5 @@ You can run this container in following way. You can then access the WebDAV inst
 ```
 docker run -d -e USERNAME=test -e PASSWORD=test -p 8080:8080 coolersport/webdav
 ```
+
+All uploaded content can be browsed from root `http://localhost:8080` 
