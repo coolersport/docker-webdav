@@ -14,7 +14,13 @@ ENV APACHE_RUN_USER=www-data \
 COPY webdav /
 
 RUN apt-get update && \
-    apt-get install -y apache2 apache2-utils tzdata && \
+    apt-get install -y apache2 apache2-utils tzdata wget && \
+    # install gosu
+    dpkgArch="$(dpkg --print-architecture | awk -F- '{ print $NF }')" && \
+    wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/1.10/gosu-$dpkgArch" && \
+    chmod +x /usr/local/bin/gosu && \
+    gosu nobody true && \
+    # complete gosu
     a2enmod dav dav_fs && \
     a2dissite 000-default && \
     mkdir -p $APACHE_LOG_DIR && \
@@ -24,7 +30,10 @@ RUN apt-get update && \
     mv /webdav.conf /etc/apache2/sites-available/ && \
     a2ensite webdav && \
     chown -R www-data $APACHE_LOG_DIR $APACHE_LOCK_DIR $APACHE_RUN_DIR && \
-    chmod +x /run.sh
+    chmod +x /run.sh && \
+    # clean up
+    apt-get remove -y wget && \
+    apt-get autoremove -y
 
 EXPOSE 8080
 
